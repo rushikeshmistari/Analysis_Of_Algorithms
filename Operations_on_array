@@ -1,0 +1,97 @@
+#include <stdio.h>
+
+#define MAX 100
+
+int arr[MAX];
+int n = 0;
+
+void insertArray() {
+    int i;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    if (n < 1 || n > MAX) {
+        printf("Invalid size! Enter between 1 and %d.\n", MAX);
+        n = 0;
+        return;
+    }
+
+    printf("Enter %d elements:\n", n);
+    for (i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    printf("Array inserted successfully!\n");
+}
+
+void selectionSort() {
+    int i, j, minIndex, temp;
+
+    if (n == 0) {
+        printf("Array is empty! Insert elements first.\n");
+        return;
+    }
+
+    for (i = 0; i < n - 1; i++) {
+        minIndex = i;
+
+        for (j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+        }
+
+        if (minIndex != i) {
+            temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+    }
+
+    printf("Array sorted successfully using Selection Sort!\n");
+}
+
+void displayArray() {
+    int i;
+
+    if (n == 0) {
+        printf("Array is empty! Insert elements first.\n");
+        return;
+    }
+
+    printf("Array elements: ");
+    for (i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int choice;
+
+    while (1) {
+        printf("\n----- MENU -----\n");
+        printf("1. Insertion of Array\n");
+        printf("2. Selection Sort\n");
+        printf("3. Display Array\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        if (choice == 1) {
+            insertArray();
+        } else if (choice == 2) {
+            selectionSort();
+        } else if (choice == 3) {
+            displayArray();
+        } else if (choice == 4) {
+            printf("Exiting program...\n");
+            break;
+        } else {
+            printf("Invalid choice! Please enter 1-4.\n");
+        }
+    }
+
+    return 0;
+}
