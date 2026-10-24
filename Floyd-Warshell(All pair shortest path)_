@@ -1,0 +1,37 @@
+#include <stdio.h>
+#define INF 999
+
+int main() {
+    int n, i, j, k;
+
+    printf("Enter number of vertices: ");
+    scanf("%d", &n);
+
+    int d[n][n];
+
+    printf("Enter cost matrix (999 for no edge):\n");
+    for (i = 0; i < n; i++)
+        for (j = 0; j < n; j++)
+            scanf("%d", &d[i][j]);
+
+    // Floyd-Warshall
+    for (k = 0; k < n; k++)
+        for (i = 0; i < n; i++)
+            for (j = 0; j < n; j++)
+                if (d[i][k] != INF && d[k][j] != INF &&
+                    d[i][k] + d[k][j] < d[i][j])
+                    d[i][j] = d[i][k] + d[k][j];
+
+    printf("Shortest path matrix:\n");
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            if (d[i][j] == INF)
+                printf("INF\t");
+            else
+                printf("%d\t", d[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
