@@ -1,0 +1,64 @@
+#include <stdio.h>
+
+int main() {
+    int n, target, i, j, temp;
+    int size = 0, sum = 0, found = 0;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    int s[n];    
+    int idx[n];   
+    printf("Enter the elements: ");
+    for (i = 0; i < n; i++)
+        scanf("%d", &s[i]);
+
+    printf("Enter target sum: ");
+    scanf("%d", &target);
+
+    for (i = 0; i < n - 1; i++)
+        for (j = 0; j < n - i - 1; j++)
+            if (s[j] > s[j + 1]) {
+                temp = s[j];
+                s[j] = s[j + 1];
+                s[j + 1] = temp;
+            }
+
+    printf("Subsets with sum %d:\n", target);
+
+    i = 0;
+    while (1) {
+        if (i < n && sum + s[i] <= target) {
+            // include current integer in subset
+            idx[size] = i;
+            size++;
+            sum = sum + s[i];   
+            i++;
+
+            if (sum == target) {   
+                found = 1;
+                printf("{ ");
+                for (j = 0; j < size; j++)
+                    printf("%d ", s[idx[j]]);
+                printf("}\n");
+
+                size--;
+                sum = sum - s[idx[size]];
+                i = idx[size] + 1;
+            }
+        } else {
+
+            if (size == 0)        
+                break;
+            size--;                   
+            sum = sum - s[idx[size]];  
+            i = idx[size] + 1;        
+        }
+    }
+
+
+    if (found == 0)
+        printf("No valid subset exists.\n");
+
+    return 0;
+}
