@@ -1,0 +1,61 @@
+#include <stdio.h>
+
+int main() {
+    int n, i, j, k, c, ok, count = 0;
+
+    printf("Enter N: ");
+    scanf("%d", &n);
+
+    int x[n + 1];            
+
+    printf("Solutions:\n");
+
+    k = 1;             
+    x[1] = 0;
+
+    while (k > 0) {
+        x[k]++;             
+
+        // place(k, i): find a column where queen is safe
+        while (x[k] <= n) {
+            ok = 1;
+            for (j = 1; j < k; j++) {
+                if (x[j] == x[k] ||              
+                    x[j] - j == x[k] - k ||   
+                    x[j] + j == x[k] + k) {      
+                    ok = 0;
+                    break;
+                }
+            }
+            if (ok)
+                break;
+            x[k]++;
+        }
+
+        if (x[k] <= n) {       
+            if (k == n) {      
+                count++;
+                for (i = 1; i <= n; i++) {
+                    for (c = 1; c <= n; c++) {
+                        if (x[i] == c)
+                            printf("Q ");
+                        else
+                            printf("- ");
+                    }
+                    printf("\n");
+                }
+                printf("\n");
+            } else {          
+                k++;
+                x[k] = 0;
+            }
+        } else {
+            k--;               
+        }
+    }
+
+    if (count == 0)
+        printf("No solution exists.\n");
+
+    return 0;
+}
