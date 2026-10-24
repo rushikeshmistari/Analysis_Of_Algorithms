@@ -1,0 +1,50 @@
+#include <stdio.h>
+
+int main() {
+    int n, m, i, j, hp = 0, ht = 0, found = 0, match;
+
+    printf("Enter length of text: ");
+    scanf("%d", &n);
+    printf("Enter length of pattern: ");
+    scanf("%d", &m);
+
+    char T[n + 1], P[m + 1];
+
+    printf("Enter text: ");
+    scanf("%s", T);
+    printf("Enter pattern: ");
+    scanf("%s", P);
+
+    // Step 3: hash value of the pattern
+    for (i = 0; i < m; i++)
+        hp = hp + P[i];
+
+    // Step 4: hash value of the first window of the text
+    for (i = 0; i < m; i++)
+        ht = ht + T[i];
+
+    // Step 5: for each window from 0 to n-m
+    for (i = 0; i <= n - m; i++) {
+
+        if (hp == ht) {                   
+            match = 1;
+            for (j = 0; j < m; j++)        
+                if (T[i + j] != P[j])
+                    match = 0;
+
+            if (match == 1) {             
+                printf("Pattern found at index %d\n", i);
+                found = 1;
+            }
+        }
+
+        // rolling hash: remove first character, add next character
+        if (i < n - m)
+            ht = ht - T[i] + T[i + m];
+    }
+
+    if (found == 0)
+        printf("Pattern not found\n");
+
+    return 0;
+}
