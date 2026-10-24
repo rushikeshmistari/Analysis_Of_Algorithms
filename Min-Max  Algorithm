@@ -1,0 +1,61 @@
+#include <stdio.h>
+
+int main() {
+    int n, i, k, cnt;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    int A[n];
+    int mn[n], mx[n]; 
+
+    printf("Enter the elements: ");
+    for (i = 0; i < n; i++)
+        scanf("%d", &A[i]);
+
+    cnt = 0;
+    for (i = 0; i < n; i += 2) {
+        if (i + 1 < n) {          
+            if (A[i] < A[i + 1]) {
+                mn[cnt] = A[i];
+                mx[cnt] = A[i + 1];
+            } else {
+                mn[cnt] = A[i + 1];
+                mx[cnt] = A[i];
+            }
+        } else {                
+            mn[cnt] = A[i];
+            mx[cnt] = A[i];
+        }
+        cnt++;
+    }
+
+    while (cnt > 1) {
+        k = 0;
+        for (i = 0; i < cnt; i += 2) {
+            if (i + 1 < cnt) {
+                // min = minimum(left.min, right.min)
+                if (mn[i] < mn[i + 1])
+                    mn[k] = mn[i];
+                else
+                    mn[k] = mn[i + 1];
+
+                // max = maximum(left.max, right.max)
+                if (mx[i] > mx[i + 1])
+                    mx[k] = mx[i];
+                else
+                    mx[k] = mx[i + 1];
+            } else {                     // odd part out, carry forward
+                mn[k] = mn[i];
+                mx[k] = mx[i];
+            }
+            k++;
+        }
+        cnt = k;
+    }
+
+    printf("Minimum Element = %d\n", mn[0]);
+    printf("Maximum Element = %d\n", mx[0]);
+
+    return 0;
+}
